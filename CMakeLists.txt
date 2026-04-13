@@ -8,5 +8,7 @@ include_directories(include)
 add_executable(sort_test
         source/bubbleSort.c
         source/quickSort.c
-        source/main-quicksort-test.c
+        include/mergeSort.h
+        source/mergeSort.c
+        source/main-mergeSort-test.c
 )
