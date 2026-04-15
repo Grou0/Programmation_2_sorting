@@ -8,5 +8,11 @@ include_directories(include)
 add_executable(sort_test
         source/bubbleSort.c
         source/quickSort.c
-        source/main-quicksort-test.c
+        include/mergeSort.h
+        source/mergeSort.c
+        include/PQ.h
+        source/PQ.c
+        source/heapSort.c
+        include/heapSort.h
+        source/main-heapSort-test.c
 )
