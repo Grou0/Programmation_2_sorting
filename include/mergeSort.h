@@ -7,4 +7,4 @@
 
 #endif //S7_SORT_REPO_TRIFUSION_H
 
-void mergeSort(int tab[], int debut, int fin);
+int mergeSort(int tab[], int debut, int fin);

@@ -3,23 +3,27 @@
 //
 #include "mergeSort.h"
 
-void merge(int tab[], int debut, int mid, int fin);
+int merge(int tab[], int debut, int mid, int fin);
 
-void mergeSort(int tab[], int debut, int fin) {
+int mergeSort(int tab[], int debut, int fin) {
     if (debut < fin) {
         int mid = (debut+fin)/2;
-        mergeSort(tab, debut, mid);
-        mergeSort(tab, mid+1, fin);
-        merge(tab, debut, mid, fin);
+        int x = mergeSort(tab, debut, mid);
+        int y = mergeSort(tab, mid+1, fin);
+        int z = merge(tab, debut, mid, fin);
+        return x + y + z ;
+    }else {
+        return 0 ;
     }
 }
 
-void merge(int tab[], int debut, int mid, int fin) {
+int merge(int tab[], int debut, int mid, int fin) {
     //int temp[fin - debut + 1];
     // int *temp = malloc((fin - debut + 1) * sizeof(int));
     int i = 0;
     int j = 0;
     int k = debut ;
+    int z = 0;
 
     int n1 = mid - debut + 1;
     int n2 = fin - mid;
@@ -40,14 +44,18 @@ void merge(int tab[], int debut, int mid, int fin) {
             tab[k] = R[j];
             j++;
         }
+        z++;
         k++;
     }while (i < n1) {
         tab[k] = L[i];
         k++;
         i++;
+        z++;
     }while (j < n2) {
         tab[k] = R[j];
         k++;
         j++;
+        z++;
     }
+    return z ;
 }

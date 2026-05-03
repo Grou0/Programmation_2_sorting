@@ -10,6 +10,7 @@ void swap(int *a, int *b);
 int bubbleSort(int arr[], int n) {
     if (arr == NULL) return -1;
     if (n <= 1) return 0;
+    int cpt = 0;
     int swapped = 0;
     for (int i = 0; i < n-1; i++) {
         swapped = 0;
@@ -17,14 +18,15 @@ int bubbleSort(int arr[], int n) {
             if (arr[j] > arr[j+1] ) {
                 swap(&arr[j], &arr[j+1]);
                 swapped = 1;
+                cpt++;
             }
 
         }
         if (swapped == 0) {
-            return 0;
+            return cpt;
         }
     }
-    return 0;
+    return cpt;
 }
 
 void swap(int *a, int *b) {
