@@ -14,9 +14,54 @@
 
 
 #define BENCHMARK_SIZE 50000
+void benchmarkingSortingAlgortims();
+int anagramsSearch(char *chain1, char *chain2);
 
 int main() {
-    //For time calculation
+    char chain1[] = "aube";
+    char chain2[] = "bau";
+
+    int result = anagramsSearch(chain1, chain2) ;
+
+
+
+    return 0;
+}
+
+//In C, writing the name of an array without square brackets is equivalent to writing the address of the array’s first element.
+
+int anagramsSearch(char* chain1, char* chain2) {
+    int len1 = strlen(chain1);
+    int len2 = strlen(chain2);
+    if (len2 != len1) {
+        printf("Not the same length, not an annagram.\n");
+        return 0;
+    }
+    const char *ptr1 = chain1;
+    int i = 0 ;
+
+    if (bubbleSortChar(chain1, len1) < 0 || bubbleSortChar(chain2, len2) < 0) {
+        return -1;
+    }
+
+    printf("Len chain 1 = %d\n",len1);
+
+    while (*ptr1 != '\0') {
+        printf("chain %d = %c\n",i, chain1[i]);
+        if (chain1[i] != chain2[i]) {
+            printf("Not an annagram.\n");
+            return 0;
+        }
+        i++;
+        ptr1++;
+    }
+    printf("This is an annagram.\n");
+    return 1;
+}
+
+
+void benchmarkingSortingAlgortims() {
+        //For time calculation
     clock_t start, end;
     double cpu_time_used;
 
@@ -136,5 +181,5 @@ int main() {
 
     free(tab_original);
     free(tab_copie);
-    return 0;
+
 }
