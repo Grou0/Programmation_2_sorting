@@ -16,16 +16,49 @@
 #define BENCHMARK_SIZE 50000
 void benchmarkingSortingAlgortims();
 int anagramsSearch(char *chain1, char *chain2);
+int doublonsSearch(int* tab, int n) ;
 
 int main() {
+    //chain1[] c'est différent que *chain1
     char chain1[] = "aube";
-    char chain2[] = "bau";
+    char chain2[] = "beau";
+    int tab[] = {9,8,7,5,5,4,3,2,1,0,-1,-2,-3,-4,-5};
+    int n =15;
 
-    int result = anagramsSearch(chain1, chain2) ;
+    int result = doublonsSearch(tab, n) ;
+    printf("result = %d\n", result);
 
 
 
     return 0;
+}
+
+int doublonsSearch(int* tab, int n) {
+    if (tab == 0) {
+        printf("Tab is null.\n");
+        return -1;
+    }
+    if (n <= 0) {
+        printf("Size smaller or equal  0.\n");
+        return -1;
+    }
+    int res = bubbleSort(tab, n);
+    if (res < 0) {
+        printf("Error during bubblesort.\n");
+        return -1;
+    }
+    int temp = tab[0];
+    for (int i = 1 ; i < n ; i++) {
+        printf("tab[%d] = %d\n", i, tab[i]);
+        if ( tab[i] == temp ) {
+            printf("Tab contains doublons.\n");
+            return 1;
+        }
+        temp = tab[i];
+    }
+    printf("Tab does not contains doublons.\n");
+    return 0;
+
 }
 
 //In C, writing the name of an array without square brackets is equivalent to writing the address of the array’s first element.
@@ -41,6 +74,7 @@ int anagramsSearch(char* chain1, char* chain2) {
     int i = 0 ;
 
     if (bubbleSortChar(chain1, len1) < 0 || bubbleSortChar(chain2, len2) < 0) {
+        printf("Error during bubblesort.\n");
         return -1;
     }
 
