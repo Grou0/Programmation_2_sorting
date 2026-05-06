@@ -17,20 +17,54 @@
 void benchmarkingSortingAlgortims();
 int anagramsSearch(char *chain1, char *chain2);
 int doublonsSearch(int* tab, int n) ;
+int twoClosest(int* tab, int n);
 
 int main() {
     //chain1[] c'est différent que *chain1
     char chain1[] = "aube";
     char chain2[] = "beau";
-    int tab[] = {9,8,7,5,5,4,3,2,1,0,-1,-2,-3,-4,-5};
-    int n =15;
+    int tab[] = {99,88,77,55,50,44,33,22,10,0};
+    int n =10;
 
     int result = doublonsSearch(tab, n) ;
     printf("result = %d\n", result);
 
+    int res = twoClosest(tab, n) ;
+    printf("Indice 1 = %d\n", tab[res-1]);
+    printf("Indice 2 = %d\n", tab[res]);
+    printf("Diff : %d\n",(tab[res]-tab[res-1]));
 
 
     return 0;
+}
+
+int twoClosest(int* tab, int n) {
+    if (tab== 0) {
+        printf("No tab found.\n");
+        return -1;
+    }
+    if (n<=0) {
+        printf("Size smaller or equal  0.\n");
+        return -1;
+    }
+    int res = bubbleSort(tab, n);
+    if (res < 0) {
+        printf("Error during bubblesort.\n");
+        return -1;
+    }
+    int min = abs(tab[0] - tab[1]);
+    int indice0 = 0 ;
+    int indice1 = 1 ;
+    for (int i = 2 ; i < n ; i++) {
+        if (tab[i]-tab[i-1] < min) {
+            min = tab[i]-tab[i-1];
+            indice0 = i-1;
+            indice1 = i;
+        }
+    }
+    return indice1 ;
+
+
 }
 
 int doublonsSearch(int* tab, int n) {
