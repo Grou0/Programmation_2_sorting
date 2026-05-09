@@ -14,29 +14,101 @@
 
 
 #define BENCHMARK_SIZE 50000
+#define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
+
 void benchmarkingSortingAlgortims();
 int anagramsSearch(char *chain1, char *chain2);
 int doublonsSearch(int* tab, int n) ;
 int twoClosest(int* tab, int n);
+int fusionner_intervalles(int intervalles[][2], int n);
+void printIntervalles(int intervalles[][2], int n) ;
 
 int main() {
-    //chain1[] c'est différent que *chain1
-    char chain1[] = "aube";
-    char chain2[] = "beau";
-    int tab[] = {99,88,77,55,50,44,33,22,10,0};
-    int n =10;
+    srand(time(NULL));
+    // //chain1[] c'est différent que *chain1
+    // char chain1[] = "aube";
+    // char chain2[] = "beau";
+    // int tab[] = {99,88,77,55,50,44,33,22,10,0};
+    // int n =10;
+    //
+    // int result = doublonsSearch(tab, n) ;
+    // printf("result = %d\n", result);
+    //
+    // int res = twoClosest(tab, n) ;
+    // printf("Indice 1 = %d\n", tab[res-1]);
+    // printf("Indice 2 = %d\n", tab[res]);
+    // printf("Diff : %d\n",(tab[res]-tab[res-1]));
 
-    int result = doublonsSearch(tab, n) ;
-    printf("result = %d\n", result);
+    int n = 6;
+    int intervalles[6][2];
 
-    int res = twoClosest(tab, n) ;
-    printf("Indice 1 = %d\n", tab[res-1]);
-    printf("Indice 2 = %d\n", tab[res]);
-    printf("Diff : %d\n",(tab[res]-tab[res-1]));
+    // Génération aléatoire : debut entre 0 et 20, fin = debut + 1..5
+    for (int i = 0; i < n; i++) {
+        intervalles[i][0] = rand() % 20;
+        intervalles[i][1] = intervalles[i][0] + 1 + rand() % 5;
+    }
+
+    printf("Avant  : ");
+    printIntervalles(intervalles, n);
+
+    int new_n = fusionner_intervalles(intervalles, n);
+
+    printf("Apres  : ");
+    printIntervalles(intervalles, new_n);
+    printf("Nombre d'intervalles : %d -> %d\n", n, new_n);
+
 
 
     return 0;
 }
+
+int fusionner_intervalles(int intervalles[][2], int n) {
+    if (intervalles == NULL) {
+        printf("No tab found.\n");
+        return -1;
+    }
+    if (n<=0) {
+        printf("Size smaller or equal  0.\n");
+        return -1;
+    }
+    // 1. Trier les intervalles par leur début
+    int res = bubbleSortIntervals(intervalles, n);
+    printf("Tri    : ");
+    printIntervalles(intervalles, n);
+    if (res < 0) {
+        printf("Error during bubblesort.\n");
+        return -1;
+    }
+    // 2. Parcourir les intervalles un par un
+    // 3. Pour chaque intervalle, vérifier s'il chevauche le dernier fusionné
+    //     - Si oui → fusionner
+    //     - Si non → passer au suivant
+    int new_n = n ;
+    int k = 0 ;
+    for (int i = 1 ; i < n ; i++) {
+        if (intervalles[k][1] >= intervalles[i][0]) { //chevauchement
+            //intervalles[k][0]=intervalles[i-1][0];
+            intervalles[k][1]=MAX(intervalles[k][1],intervalles[i][1]);
+            new_n--;
+        }else { //Pas de chevauchement,
+            k++ ;
+            intervalles[k][0]=intervalles[i][0];
+            intervalles[k][1]=intervalles[i][1];
+        }
+    }
+
+    // 4. Retourner le nouveau nombre d'intervalles
+    return new_n ;
+
+}
+
+void printIntervalles(int intervalles[][2], int n) {
+    for (int i = 0; i < n; i++) {
+        printf("[%d, %d] ", intervalles[i][0], intervalles[i][1]);
+    }
+    printf("\n");
+}
+
 
 int twoClosest(int* tab, int n) {
     if (tab== 0) {
